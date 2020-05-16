@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Linq;
+using System.Threading;
 
 #endregion
 
@@ -138,7 +139,7 @@ namespace KneatAutomationTestChallenge.Tests
         public void FillWithSampleData(InformationAboutBook Info)
         {
             driver.FindElement(By.Name("ss")).SendKeys(Info.Destination);
-            CantTouchThisCalendar2(Info.CheckInDate.Day, Info.CheckOutDate.Day, Info.HowManyMonthsFromTodayDate);
+            CalendarManagment(Info.CheckInDate.Day, Info.CheckOutDate.Day, Info.HowManyMonthsFromTodayDate);
             SetValueOfParameter("no_rooms", value, Info.Room.ToString());
             SetValueOfParameter("group_adults", value, Info.Adults.ToString());
             SetValueOfParameter("group_children", value, Info.Children.ToString());
@@ -166,7 +167,7 @@ namespace KneatAutomationTestChallenge.Tests
         /// <param name="HowManyDaysToCheckOut">
         /// The number of days, that we would like to book a hotel.
         /// </param>
-        /// <param name="Spa">
+        /// <param name="Entertaiment">
         /// The fun things to do
         /// </param>
         /// <param name="HowManyStars">
@@ -177,7 +178,7 @@ namespace KneatAutomationTestChallenge.Tests
         /// </returns>
         public InformationAboutBook SetData(string Destination, int Room, int Adults, int Children,
                                             int HowManyMonthsFromTodayDate, int HowManyDaysToCheckOut,
-                                            string Spa, int HowManyStars = 0)
+                                            string Entertaiment, int HowManyStars = 0)
         {
             InformationAboutBook Data = new InformationAboutBook();
             Data.Destination = Destination;
@@ -186,14 +187,14 @@ namespace KneatAutomationTestChallenge.Tests
             Data.Children = Children;
             Data.HowManyMonthsFromTodayDate = HowManyMonthsFromTodayDate;
             Data.HowManyDaysToCheckOut = HowManyDaysToCheckOut;
-            Data.Spa = Spa;
+            Data.Entertaiment = Entertaiment;
             Data.HowManyStars = HowManyStars;
 
             return Data;
         }
 
         /// <summary>
-        /// This function supports the Calendar.
+        /// This method supports the Calendar.
         /// </summary>
         /// <param name="CheckInDay">
         /// The check in day.
@@ -204,7 +205,7 @@ namespace KneatAutomationTestChallenge.Tests
         /// <param name="HowManyMonthsFromToday">
         /// The number of months from today.
         /// </param>
-        public void CantTouchThisCalendar2(int CheckInDay, int CheckOutDay, int HowManyMonthsFromToday)
+        public void CalendarManagment(int CheckInDay, int CheckOutDay, int HowManyMonthsFromToday)
         {
             FindAndNavigate(true, CalendarXpath, xpath);
             for (int i = 0; i < HowManyMonthsFromToday; i++)
@@ -216,7 +217,7 @@ namespace KneatAutomationTestChallenge.Tests
         }
 
         /// <summary>
-        /// This function navigate and finding an element. 
+        /// This method navigate and finding an element. 
         /// </summary>
         /// <param name="Clickable">
         /// The info about clicking an element.
@@ -249,7 +250,7 @@ namespace KneatAutomationTestChallenge.Tests
         }
 
         /// <summary>
-        /// This function navigate to element.
+        /// This method navigate to element.
         /// </summary>
         /// <param name="NavigateTo">
         /// The element to navigate
@@ -260,7 +261,7 @@ namespace KneatAutomationTestChallenge.Tests
         }
 
         /// <summary>
-        /// The change of leangue.
+        /// The change of languege.
         /// </summary>
         public void ChangeLeangueToUK()
         {
@@ -298,7 +299,7 @@ namespace KneatAutomationTestChallenge.Tests
         }
 
         /// <summary>
-        /// The functiong setting of new value.
+        /// The method setting new value.
         /// </summary>
         /// <param name="element">
         /// The element
@@ -365,6 +366,32 @@ namespace KneatAutomationTestChallenge.Tests
                     Assert.That(true, Is.True);
                 }
             }
+        }
+
+        /// <summary>
+        /// Choose the option indicated by the user
+        /// </summary>
+        /// <param name="Entertaiment">
+        /// The Entertaiment.
+        /// </param>
+        public void ChooseEntertainment(string Entertaiment)
+        {
+            FindAndNavigate(true, "//*[@id=\"filter_popular_activities\"]//*[contains(text(),'" + Entertaiment + "')]", xpath);
+            //just to make sure, all the data loaded
+            Thread.Sleep(10000);
+        }
+
+        /// <summary>
+        /// Choose the option indicated by the user
+        /// </summary>
+        /// <param name="stars">
+        /// How many stars
+        /// </param>
+        public void ChooseNumberOfStars(int stars)
+        {
+            FindAndNavigate(true, "//*[@id=\"filter_class\"]//*[contains(text(),'" + stars + "')]", xpath);
+            //just to make sure, all the data loaded
+            Thread.Sleep(10000);
         }
         #endregion
     }

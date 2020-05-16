@@ -16,7 +16,7 @@ namespace KneatAutomationTestChallenge.Tests
         public int HowManyStars { get; set;  }
         public int HowManyMonthsFromTodayDate { get; set; }
         public int HowManyDaysToCheckOut { get; set; }
-        public string Spa { get; set; }
+        public string Entertaiment { get; set; }
         public DateTime CheckInDate { get { return DateTime.Now.AddMonths(HowManyMonthsFromTodayDate); } }
         public DateTime CheckOutDate { get { return DateTime.Now.AddMonths(HowManyMonthsFromTodayDate).AddDays(HowManyDaysToCheckOut); } }
     }
